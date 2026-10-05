@@ -1,4 +1,5 @@
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * A utility class providing various graph traversal methods using DFS.
@@ -18,7 +19,26 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    if (vertex == null) return;
+    Set<Vertex<T>> visited = new HashSet<>();
+    helper(vertex,visited);
+
   }
+
+  private <T> void helper(Vertex<T> vertex, Set<Vertex<T>> visited) {
+
+    if(visited.contains(vertex)) return;
+    visited.add(vertex);
+    System.out.println(vertex.data);
+
+    for(Vertex<T> neighbor : vertex.neighbors) {
+      helper(neighbor, visited);
+    }
+  }
+ 
+
+
+
 
   /**
    * Returns a set of all vertices reachable from the given starting vertex,
