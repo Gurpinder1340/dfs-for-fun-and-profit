@@ -82,8 +82,32 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+     
+  if (vertex == null) {
+    return Integer.MIN_VALUE;
   }
+
+  Set<Vertex<Integer>> visited = new HashSet<>();
+  return maxHelper(vertex, visited);
+}
+
+private int maxHelper(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+  if (visited.contains(vertex)) {
+    return Integer.MIN_VALUE;
+  }
+
+  visited.add(vertex);
+
+  int max = vertex.data;
+
+  for (Vertex<Integer> neighbor : vertex.neighbors) {
+    max = Math.max(max, maxHelper(neighbor, visited));
+  }
+
+  return max;
+}
+   
+  
 
   /**
    * Returns a set of all leaf vertices reachable from the given starting vertex.
@@ -97,7 +121,18 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> result = new HashSet<Vertex<T>>();
+      if (vertex == null) {
+      return result;
+    }
+    Set<Vertex<T>> visited = new HashSet<Vertex<T>>();
+    reachableHelper(vertex, visited);
+    for (Vertex<T> v : visited) {
+      if (v.neighbors == null || v.neighbors.isEmpty()) {
+        result.add(v);
+      }
+    }
+    return result;
   }
 
 
@@ -112,6 +147,7 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    
     return true;
   }
 
