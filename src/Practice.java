@@ -147,9 +147,33 @@ private int maxHelper(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
-    
-    return true;
+    if (vertex == null) {
+      return true;
+    }
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+      return allOddHelper(vertex,visited);
   }
+
+    private boolean allOddHelper(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+      if (visited.contains(vertex)) {
+        return true;
+  }
+     visited.add(vertex);
+
+    if(vertex.data%2==0) 
+      return false;
+
+    for(var neighbor : vertex.neighbors) {
+      if (!allOddHelper(neighbor, visited))
+        return false;
+    }
+      return true;
+}
+
+
+    
+
 
   /**
    * Determines whether there exists a strictly increasing path from the given start vertex
@@ -166,6 +190,23 @@ private int maxHelper(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
-    return false;
+    
+    if (start == null || end == null) {
+      throw new NullPointerException();
+    }
+
+    if (start == end) {
+      return true;
+    }
+
+    for (Vertex<Integer> neighbor : start.neighbors) {
+      if (neighbor.data > start.data) {
+        if (hasStrictlyIncreasingPath(neighbor, end)) {
+          return true;
+        }
+      }
+    }
+     return false;
+
   }
 }
